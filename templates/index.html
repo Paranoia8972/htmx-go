@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo App</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <h1>Todo List</h1>
+    <form action="/add" method="post">
+      <input type="text" name="title" placeholder="Title" required />
+      <input
+        type="text"
+        name="description"
+        placeholder="Description"
+        required
+      />
+      <button type="submit">Add</button>
+    </form>
+    <ul>
+      {{range .}}
+      <li>
+        <form action="/toggle" method="post" style="display: inline">
+          <input type="hidden" name="id" value="{{.ID}}" />
+          <input
+            type="checkbox"
+            {{if
+            .Done}}checked{{end}}
+            onchange="this.form.submit()"
+          />
+        </form>
+        <strong>{{.Title}}</strong>: {{.Description}}
+        <form action="/delete" method="post" style="display: inline">
+          <input type="hidden" name="id" value="{{.ID}}" />
+          <button type="submit">Delete</button>
+        </form>
+      </li>
+      {{end}}
+    </ul>
+  </body>
+</html>
