@@ -4,10 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Todo App</title>
-    <link rel="stylesheet" href="/static/style.css" />
+    <link rel="stylesheet" href="/static/styles.css" />
   </head>
   <body>
     <h1>Todo List</h1>
+    <form action="/" method="get">
+      <input type="text" name="search" placeholder="Search..." />
+      <button type="submit">Search</button>
+    </form>
     <form action="/add" method="post">
       <input type="text" name="title" placeholder="Title" required />
       <input
@@ -18,6 +22,16 @@
       />
       <button type="submit">Add</button>
     </form>
+
+    <form action="/export" method="get">
+      <button type="submit">Export Tasks</button>
+    </form>
+
+    <form action="/import" method="post" enctype="multipart/form-data">
+      <input type="file" name="file" required />
+      <button type="submit">Import Tasks</button>
+    </form>
+
     <ul>
       {{range .}}
       <li>
@@ -35,8 +49,47 @@
           <input type="hidden" name="id" value="{{.ID}}" />
           <button type="submit">Delete</button>
         </form>
+        <button onclick="editTask('{{.ID}}', '{{.Title}}', '{{.Description}}')">
+          Edit
+        </button>
       </li>
       {{end}}
     </ul>
+
+    <div id="editModal" style="display: none">
+      <h2>Edit Task</h2>
+      <form id="editForm" action="/edit" method="post">
+        <input type="hidden" name="id" id="editId" />
+        <input
+          type="text"
+          name="title"
+          id="editTitle"
+          placeholder="Title"
+          required
+        />
+        <input
+          type="text"
+          name="description"
+          id="editDescription"
+          placeholder="Description"
+          required
+        />
+        <button type="submit">Save</button>
+        <button
+          type="button"
+          onclick="document.getElementById('editModal').style.display='none';"
+        >
+          Cancel
+        </button>
+      </form>
+    </div>
+    <script>
+      function editTask(id, title, description) {
+        document.getElementById("editId").value = id;
+        document.getElementById("editTitle").value = title;
+        document.getElementById("editDescription").value = description;
+        document.getElementById("editModal").style.display = "block";
+      }
+    </script>
   </body>
 </html>
