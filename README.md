@@ -24,6 +24,7 @@ go run main.go
 ```
 
 ## What's next?
+Check out the branche [update](https://github.com/Paranoia8972/htmx-go/tree/update) to see how I implemented these features.
 
 - **Edit tasks:**
   Allow users to edit the title and description of existing tasks.
